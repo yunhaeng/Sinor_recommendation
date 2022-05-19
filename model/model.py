@@ -9,19 +9,21 @@ class recommendation():
         self.id = id
         self.data = None
 
-    def get_embedding_matrix(self, filepath):
+    def get_embedding_matrix(self, filepath, vector_length):
         """
         관심사 리트스에 대한 벡터값을 저장하고 있는 임베딩 매트릭스를 불러옵니다.
         
         Arguments:
             filepath: 피클로 저장된 임베딩 벡터 파일의 주소입니다.
-
+            vector_length: 사용하는 임베딩 벡터의 길이입니다.(ex 200, 300)
         Return:
             임베딩 벡터 정보를 담고있는 dict 형태로 return합니다.
         """
 
         with open(filepath, 'rb') as fw:
             self.embedding_matrix = pickle.load(fw)
+        
+        self.__vector_length = vector_length
 
     def get_vector(self, preferences):
         """
@@ -29,20 +31,20 @@ class recommendation():
         
         Arguments:
             preferences: 관심사 리스트입니다. id를 받을 것인지, 한글로 받을 것인지는 생각 중
-        
+
         Return:
             4개의 관심사를 가지고 만든 고유 벡터를 리턴합니다.
         """
 
         #4개의 관심사를 사용함
-        person_matrix = np.zeros((4, 200))
+        person_matrix = np.zeros((len(preferences), self.__vector_length))
 
         #2중 for문 말고 다른 방법을 찾아보는 것이 필요
         for p in preferences:
             for j in range(1, 4):
                 person_matrix[j-1] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, axis = 0)
+        vector = np.average(person_matrix, weights=[0.4, 0.3, 0.2, 0.1], axis = 0)
             
         return vector
 
