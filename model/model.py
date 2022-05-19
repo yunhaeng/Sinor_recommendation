@@ -40,11 +40,10 @@ class recommendation():
         person_matrix = np.zeros((len(preferences), self.__vector_length))
 
         #2중 for문 말고 다른 방법을 찾아보는 것이 필요
-        for p in preferences:
-            for j in range(1, 4):
-                person_matrix[j-1] = self.embedding_matrix[p]
+        for i, p in enumerate(preferences):
+            person_matrix[i] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, weights=[0.4, 0.3, 0.2, 0.1], axis = 0)
+        vector = np.average(person_matrix, axis = 0)
             
         return vector
 
