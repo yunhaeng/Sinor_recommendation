@@ -5,14 +5,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 import random
 
 class recommendation():
-    def __init__(self, preferences, id=None):
-        self.preferences = preferences
+    def __init__(self, embedding_matrix=None ,id=None):
+        self.embedding_matrix = embedding_matrix
         self.id = id
         self.data = None
 
+        if self.embedding_matrix:
+            self.preferences = list(embedding_matrix.keys())
+        else:
+            self.preferences = None
+
     def get_embedding_matrix(self, filepath, vector_length):
         """
-        관심사 리트스에 대한 벡터값을 저장하고 있는 임베딩 매트릭스를 불러옵니다.
+        관심사 리스트에 대한 벡터값을 저장하고 있는 임베딩 매트릭스를 불러옵니다.
         
         Arguments:
             filepath: 피클로 저장된 임베딩 벡터 파일의 주소입니다.
@@ -25,6 +30,7 @@ class recommendation():
             self.embedding_matrix = pickle.load(fw)
         
         self.__vector_length = vector_length
+        self.preferences = list(self.embedding_matrix.keys())
 
     def get_vector(self, preferences):
         """
@@ -44,7 +50,7 @@ class recommendation():
         for i, p in enumerate(preferences):
             person_matrix[i] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, weights = [100, 10, 10, 10],axis = 0)
+        vector = np.average(person_matrix, weights = [40, 10, 5, 1],axis = 0)
             
         return vector
 
@@ -71,7 +77,6 @@ class recommendation():
 
         self.id = id_list
 
-        #print(len(vector_list), vector_list)
         self.km = KMeans(n_clusters = 4).fit(vector_list)
         self.cluster = self.km.predict(vector_list)
         self.result = dict(zip(self.id, self.cluster))
@@ -105,12 +110,13 @@ class recommendation():
     def predict(self, id):
         """
         한 명의 유저를 입력했을 때, 해당 유저에게 추천할 id 리스트를 출력하는 함수입니다.
-
+        유저가 포함되어 있는 그룹의 ID를 무작위 순서로 정렬하여 출력합니다.
+        
         Arguments:
             id : 추천 대상 id입니다.
 
         Return:
-            추천 id 리스트를 리턴합니다.
+            추천 id 리스트를 랜덤한 순서로 리턴합니다.
         """
         vector = self.get_vector(self.data[id]).reshape((1,-1))
         group = self.km.predict(vector)[0]
