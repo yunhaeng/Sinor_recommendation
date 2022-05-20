@@ -20,7 +20,7 @@
 
 
 ## 사용 언어 및 라이브러리 
-`Python`, `pickle`, `Django`, `tensorflow`
+`Python`, `pickle`, `Django`, `sklearn`, `numpy` , `random`
 
 ## 필수 설치 모듈
 - gensim > =0.13.1 (for Word2Vec)
