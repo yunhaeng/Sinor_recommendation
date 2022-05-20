@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
+import random
 
 class recommendation():
     def __init__(self, preferences, id=None):
@@ -43,7 +44,7 @@ class recommendation():
         for i, p in enumerate(preferences):
             person_matrix[i] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, axis = 0)
+        vector = np.average(person_matrix, weights = [100, 10, 10, 10],axis = 0)
             
         return vector
 
@@ -57,7 +58,9 @@ class recommendation():
         Return:
             각 사용자마다 어떤 군집에 포함되어 있는지를 리턴합니다. shape = [(id, number of cluster)]
         """
-        self.data = data
+
+        data_dict = {i:j for i,j in data}
+        self.data = data_dict
 
         vector_list = []
         id_list = []
@@ -69,10 +72,11 @@ class recommendation():
         self.id = id_list
 
         #print(len(vector_list), vector_list)
-        km = KMeans(n_clusters = 4).fit(vector_list)
-        self.cluster = km.predict(vector_list)
-
-        return list(zip(self.id, self.cluster))
+        self.km = KMeans(n_clusters = 4).fit(vector_list)
+        self.cluster = self.km.predict(vector_list)
+        self.result = dict(zip(self.id, self.cluster))
+        
+        return self.result
 
     def similarity(self, id1, id2, data= None):
         """
@@ -87,17 +91,31 @@ class recommendation():
             두 사용자의 유사도를 리턴합니다.
         """
         if data:
-            self.data = data
+            data_dict = {i:j for i,j in data}
+            self.data = data_dict
         
         if self.data:
-            for d in self.data:
-                if d[0] == id1:
-                    vector1 = self.get_vector(d[1]).reshape((1, -1))
-                if d[0] == id2:
-                    vector2 = self.get_vector(d[1]).reshape((1, -1))
+            vector1 = self.get_vector(self.data[id1]).reshape((1, -1))
+            vector2 = self.get_vector(self.data[id2]).reshape((1, -1))
             return cosine_similarity(vector1, vector2)
 
         else:
             raise Exception('No data')
+
+    def predict(self, id):
+        """
+        한 명의 유저를 입력했을 때, 해당 유저에게 추천할 id 리스트를 출력하는 함수입니다.
+
+        Arguments:
+            id : 추천 대상 id입니다.
+
+        Return:
+            추천 id 리스트를 리턴합니다.
+        """
+        vector = self.get_vector(self.data[id]).reshape((1,-1))
+        group = self.km.predict(vector)[0]
+
+        re_li = [k for k, v in self.result.items() if v == group and k != id]
+        random.shuffle(re_li)
         
-        
+        return re_li
