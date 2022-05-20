@@ -1,4 +1,4 @@
-# Sinor 시놀 (시니어 놀자)
+# Sinor 시놀 (시니어 놀이터)
 ![image](https://user-images.githubusercontent.com/47114771/169239895-f33f2038-e7cf-4e7f-a466-414088e74996.png)
 
 > 시놀은 시니어 유저들의 관심사 및 요구사항을 이해하여 원하는 단짝과의 매칭을 제공하는 서비스입니다.
