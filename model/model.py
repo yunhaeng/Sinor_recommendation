@@ -1,11 +1,14 @@
 import numpy as np
 import pickle
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering, SpectralClustering
+from sklearn.mixture import GaussianMixture
 from sklearn.metrics.pairwise import cosine_similarity
 import random
 
 class recommendation():
     def __init__(self, embedding_matrix=None ,id=None):
+        """
+        """
         self.embedding_matrix = embedding_matrix
         self.id = id
         self.data = None
@@ -50,17 +53,17 @@ class recommendation():
         for i, p in enumerate(preferences):
             person_matrix[i] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, weights = [40, 10, 5, 1],axis = 0)
+        vector = np.average(person_matrix, weights=[40, 30, 20, 10],axis = 0)
             
         return vector
 
-    def fit(self, data):
+    def fit(self, data, n_cluster= 4):
         """
         모든 사용자의 임베딩 벡터를 통해 클러스터링하는 함수입니다.
         
         Arguments:
             data: 사용자 ID, 관심사를 나타내는 shape입니다. 추후 받아오는 데이터 형식에 맞추어 변경 예정입니다.
-        
+            n_cluster : 나누고 싶은 군집 수 입니다. default = 4
         Return:
             각 사용자마다 어떤 군집에 포함되어 있는지를 리턴합니다. shape = [(id, number of cluster)]
         """
@@ -76,8 +79,9 @@ class recommendation():
             vector_list.append(self.get_vector(p))
 
         self.id = id_list
+        self.__n_cluster = n_cluster
 
-        self.km = KMeans(n_clusters = 4).fit(vector_list)
+        self.km = KMeans(n_clusters= self.__n_cluster).fit(vector_list)
         self.cluster = self.km.predict(vector_list)
         self.result = dict(zip(self.id, self.cluster))
         
@@ -107,13 +111,14 @@ class recommendation():
         else:
             raise Exception('No data')
 
-    def predict(self, id):
+    def predict(self, id, batch_size = None):
         """
         한 명의 유저를 입력했을 때, 해당 유저에게 추천할 id 리스트를 출력하는 함수입니다.
-        유저가 포함되어 있는 그룹의 ID를 무작위 순서로 정렬하여 출력합니다.
+        유저가 포함되어 있는 그룹의 ID를 우선적으로 출력한 뒤, 남은 cluster의 id를 출력합니다.
         
         Arguments:
             id : 추천 대상 id입니다.
+            batch_size : 각 군집 id 리스트의 크기입니다. default = None
 
         Return:
             추천 id 리스트를 랜덤한 순서로 리턴합니다.
@@ -123,5 +128,13 @@ class recommendation():
 
         re_li = [k for k, v in self.result.items() if v == group and k != id]
         random.shuffle(re_li)
-        
+        re_li = re_li[:batch_size]
+
+        #이중 for문
+        for i in range(self.__n_cluster):
+            if i != group:
+                temp_li = [k for k, v in self.result.items() if v == group]
+                random.shuffle(temp_li)
+                re_li.extend(temp_li[:batch_size])
+
         return re_li

@@ -25,6 +25,31 @@
 ## 필수 설치 모듈
 - gensim > =0.13.1 (for Word2Vec)
 
+## 사용 가이드(Getting Started)
+
+### 함수(Functions)
+- get_embedding_matrix
+
+- get_vector
+
+- fit
+
+- similarity
+
+- predict
+
+### 메소드(Methods)
+- embedding_matrix
+
+- preferences
+
+- id
+
+- data
+
+- cluster
+
+- result
 
 ## 현 문제점 및 향후 개발 계획
 
