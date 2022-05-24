@@ -81,7 +81,7 @@ class recommendation():
         self.id = id_list
         self.__n_cluster = n_cluster
 
-        self.km = KMeans(n_clusters= self.__n_cluster).fit(vector_list)
+        self.km = KMeans(n_clusters= self.__n_cluster, random_state=42).fit(vector_list)
         self.cluster = self.km.predict(vector_list)
         self.result = dict(zip(self.id, self.cluster))
         
