@@ -53,7 +53,7 @@ class recommendation():
         for i, p in enumerate(preferences):
             person_matrix[i] = self.embedding_matrix[p]
         
-        vector = np.average(person_matrix, weights=[40, 30, 20, 10],axis = 0)
+        vector = np.average(person_matrix, weights=[4, 3, 2, 1],axis = 0)
             
         return vector
 
