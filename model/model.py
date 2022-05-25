@@ -57,13 +57,14 @@ class recommendation():
             
         return vector
 
-    def fit(self, data, n_cluster= 4):
+    def fit(self, data, n_cluster= 3):
         """
         모든 사용자의 임베딩 벡터를 통해 클러스터링하는 함수입니다.
         
         Arguments:
-            data: 사용자 ID, 관심사를 나타내는 shape입니다. 추후 받아오는 데이터 형식에 맞추어 변경 예정입니다.
-            n_cluster : 나누고 싶은 군집 수 입니다. default = 4
+            data: 사용자 ID, 관심사를 나타내는 shape입니다. [유저 id, [선호1, 선호2, 선호3, 선호4]]
+                데이터 크기는 군집의 수보다 많아야합니다.
+            n_cluster : 나누고 싶은 군집 수 입니다.
         Return:
             각 사용자마다 어떤 군집에 포함되어 있는지를 리턴합니다. shape = [(id, number of cluster)]
         """
