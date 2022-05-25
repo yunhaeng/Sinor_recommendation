@@ -63,7 +63,7 @@ class recommendation():
         
         Arguments:
             data: 사용자 ID, 관심사를 나타내는 shape입니다. [유저 id, [선호1, 선호2, 선호3, 선호4]]
-                데이터 크기는 군집의 수보다 많아야합니다.
+                데이터 크기는 최소한 군집의 수보다 많아야합니다.
             n_cluster : 나누고 싶은 군집 수 입니다.
         Return:
             각 사용자마다 어떤 군집에 포함되어 있는지를 리턴합니다. shape = [(id, number of cluster)]
@@ -134,7 +134,7 @@ class recommendation():
         #이중 for문
         for i in range(self.__n_cluster):
             if i != group:
-                temp_li = [k for k, v in self.result.items() if v == group]
+                temp_li = [k for k, v in self.result.items() if v == i]
                 random.shuffle(temp_li)
                 re_li.extend(temp_li[:batch_size])
 
