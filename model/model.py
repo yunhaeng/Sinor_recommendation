@@ -82,9 +82,13 @@ class recommendation():
         self.id = id_list
         self.__n_cluster = n_cluster
 
-        self.km = KMeans(n_clusters= self.__n_cluster, random_state=42).fit(vector_list)
-        self.cluster = self.km.predict(vector_list)
-        self.result = dict(zip(self.id, self.cluster))
+        if len(data) < self.__n_cluster:
+            self.cluster = None
+            self.result = None
+        else:
+            self.km = KMeans(n_clusters= self.__n_cluster, random_state=42).fit(vector_list)
+            self.cluster = self.km.predict(vector_list)
+            self.result = dict(zip(self.id, self.cluster))
         
         return self.result
 
@@ -124,18 +128,26 @@ class recommendation():
         Return:
             추천 id 리스트를 랜덤한 순서로 리턴합니다.
         """
-        vector = self.get_vector(self.data[id]).reshape((1,-1))
-        group = self.km.predict(vector)[0]
+        if self.result:
+            vector = self.get_vector(self.data[id]).reshape((1,-1))
+            group = self.km.predict(vector)[0]
 
-        re_li = [k for k, v in self.result.items() if v == group and k != id]
-        random.shuffle(re_li)
-        re_li = re_li[:batch_size]
+            re_li = [k for k, v in self.result.items() if v == group and k != id]
+            random.shuffle(re_li)
+            re_li = re_li[:batch_size]
 
-        #이중 for문
-        for i in range(self.__n_cluster):
-            if i != group:
-                temp_li = [k for k, v in self.result.items() if v == i]
-                random.shuffle(temp_li)
-                re_li.extend(temp_li[:batch_size])
+            #이중 for문
+            for i in range(self.__n_cluster):
+                if i != group:
+                    temp_li = [k for k, v in self.result.items() if v == i]
+                    random.shuffle(temp_li)
+                    re_li.extend(temp_li[:batch_size])
 
-        return re_li
+            return re_li
+        
+        else:
+            re_li = list(self.data.keys())
+            re_li.remove(id)
+            if re_li:
+                random.shuffle(re_li)
+            return re_li
