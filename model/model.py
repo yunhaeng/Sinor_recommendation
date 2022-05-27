@@ -1,5 +1,5 @@
 import numpy as np
-import pickle
+import json
 from sklearn.cluster import KMeans, AgglomerativeClustering, SpectralClustering
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics.pairwise import cosine_similarity
@@ -30,7 +30,7 @@ class recommendation():
         """
 
         with open(filepath, 'rb') as fw:
-            self.embedding_matrix = pickle.load(fw)
+            self.embedding_matrix = json.load(fw)
         
         self.__vector_length = vector_length
         self.preferences = list(self.embedding_matrix.keys())
