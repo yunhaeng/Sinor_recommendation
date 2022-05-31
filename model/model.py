@@ -12,6 +12,7 @@ class recommendation():
         self.embedding_matrix = embedding_matrix
         self.id = id
         self.data = None
+        self.result = None
 
         if self.embedding_matrix:
             self.preferences = list(embedding_matrix.keys())
@@ -146,8 +147,12 @@ class recommendation():
             return re_li
         
         else:
-            re_li = list(self.data.keys())
-            re_li.remove(id)
+            if self.data:
+                re_li = list(self.data.keys())
+                re_li.remove(id)
+            else:
+                re_li= []
+                
             if re_li:
                 random.shuffle(re_li)
             return re_li
