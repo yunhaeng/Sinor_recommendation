@@ -1,7 +1,6 @@
 import numpy as np
 import json
-from sklearn.cluster import KMeans, AgglomerativeClustering, SpectralClustering
-from sklearn.mixture import GaussianMixture
+from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 import random
 
