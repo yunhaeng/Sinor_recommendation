@@ -43,7 +43,8 @@ class recommendation():
         사용자의 관심사를 가지고 임베딩 벡터를 만들어내는 코드입니다.
         
         Arguments:
-            preferences: 관심사 리스트입니다. id를 받을 것인지, 한글로 받을 것인지는 생각 중
+            preferences: 관심사 id 리스트입니다. 
+                가장 관심이 높은 순서대로 4개의 관심사를 리스트 형태로 받습니다.
 
         Return:
             4개의 관심사를 가지고 만든 고유 벡터를 리턴합니다.
@@ -65,7 +66,7 @@ class recommendation():
         
         Arguments:
             data: 사용자 ID, 관심사를 나타내는 shape입니다. [유저 id, [선호1, 선호2, 선호3, 선호4]]
-                데이터 크기는 최소한 군집의 수보다 많아야합니다.
+                데이터 크기는 최소한 군집의 수보다 많아야 정확하게 작동합니다.
             n_cluster : 나누고 싶은 군집 수 입니다.
         Return:
             각 사용자마다 어떤 군집에 포함되어 있는지를 리턴합니다. shape = [(id, number of cluster)]
