@@ -5,8 +5,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 import random
 
 class recommendation():
-    def __init__(self, embedding_matrix=None ,id=None):
+    def __init__(self, embedding_matrix= None ,id= None) -> None:
         """
+        Arguments:
+            embedding_matrix: 관심사 id에 매칭되는 벡터를 가지고 있는 행렬입니다.
+            id: 유저 id를 list형태로 받습니다.
         """
         self.embedding_matrix = embedding_matrix
         self.id = id
@@ -18,7 +21,7 @@ class recommendation():
         else:
             self.preferences = None
 
-    def get_embedding_matrix(self, filepath, vector_length):
+    def get_embedding_matrix(self, filepath:str, vector_length:int) -> None:
         """
         관심사 리스트에 대한 벡터값을 저장하고 있는 임베딩 매트릭스를 불러옵니다.
         
@@ -35,7 +38,7 @@ class recommendation():
         self.__vector_length = vector_length
         self.preferences = list(self.embedding_matrix.keys())
 
-    def get_vector(self, preferences):
+    def get_vector(self, preferences:list):
         """
         사용자의 관심사를 가지고 임베딩 벡터를 만들어내는 코드입니다.
         
@@ -49,7 +52,6 @@ class recommendation():
         #4개의 관심사를 사용함
         person_matrix = np.zeros((len(preferences), self.__vector_length))
 
-        #2중 for문 말고 다른 방법을 찾아보는 것이 필요
         for i, p in enumerate(preferences):
             person_matrix[i] = self.embedding_matrix[p]
         
@@ -57,7 +59,7 @@ class recommendation():
             
         return vector
 
-    def fit(self, data, n_cluster= 3):
+    def fit(self, data:list, n_cluster= 3):
         """
         모든 사용자의 임베딩 벡터를 통해 클러스터링하는 함수입니다.
         
@@ -92,7 +94,7 @@ class recommendation():
         
         return self.result
 
-    def similarity(self, id1, id2, data= None):
+    def similarity(self, id1:str, id2:str, data= None):
         """
         두 사용자의 유사도를 출력하는 함수입니다.
 
@@ -116,7 +118,7 @@ class recommendation():
         else:
             raise Exception('No data')
 
-    def predict(self, id, batch_size = None):
+    def predict(self, id:str, batch_size = None):
         """
         한 명의 유저를 입력했을 때, 해당 유저에게 추천할 id 리스트를 출력하는 함수입니다.
         유저가 포함되어 있는 그룹의 ID를 우선적으로 출력한 뒤, 남은 cluster의 id를 출력합니다.
@@ -136,7 +138,6 @@ class recommendation():
             random.shuffle(re_li)
             re_li = re_li[:batch_size]
 
-            #이중 for문
             for i in range(self.__n_cluster):
                 if i != group:
                     temp_li = [k for k, v in self.result.items() if v == i]
