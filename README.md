@@ -4,7 +4,8 @@
 > 시놀은 시니어 유저들의 관심사 및 요구사항을 이해하여 원하는 단짝과의 매칭을 제공하는 서비스입니다.
 
 ## 프로젝트 결과
-- [✏️ Final Report](https://docs.google.com/document/d/1HFfYbdtzXrOGCHnt5lHzaO8CWeWXLwh-de3aADsasYQ/edit?usp=sharing)
+- [✏️ Final Report](https://drive.google.com/file/d/11w6QcHLcW1S_7OlkjvhFxtO71WSUPCth/view?usp=sharing)
+- [📘 Presentation](https://drive.google.com/file/d/1DjCScZ6P2A4Hl_UaMVWNjwLhDv0Qbxwr/view?usp=sharing)
 - [🎥 시연 영상 TBA](https://youtube.com)
 
 ## 프로젝트 목적
