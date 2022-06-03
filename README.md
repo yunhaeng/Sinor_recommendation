@@ -4,7 +4,7 @@
 > 시놀은 시니어 유저들의 관심사 및 요구사항을 이해하여 원하는 단짝과의 매칭을 제공하는 서비스입니다.
 
 ## 프로젝트 결과
-- [✏️ Final Report](https://docs.google.com/document/d/1HFfYbdtzXrOGCHnt5lHzaO8CWeWXLwh-de3aADsasYQ/edit#)
+- [✏️ Final Report](https://docs.google.com/document/d/1HFfYbdtzXrOGCHnt5lHzaO8CWeWXLwh-de3aADsasYQ/edit?usp=sharing)
 - [🎥 시연 영상 TBA](https://youtube.com)
 
 ## 프로젝트 목적
@@ -38,9 +38,6 @@
 
 ## 사용 언어 및 라이브러리 
 `Python`, `pickle`, `Django`, `sklearn`, `numpy` , `random`
-
-## 필수 설치 모듈
-- gensim > =0.13.1 (for Word2Vec)
 
 ## 사용 가이드(Getting Started)
 
