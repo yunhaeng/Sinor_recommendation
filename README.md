@@ -6,7 +6,6 @@
 ## 프로젝트 결과
 - [✏️ Final Report](https://drive.google.com/file/d/11w6QcHLcW1S_7OlkjvhFxtO71WSUPCth/view?usp=sharing)
 - [📘 Presentation](https://drive.google.com/file/d/1DjCScZ6P2A4Hl_UaMVWNjwLhDv0Qbxwr/view?usp=sharing)
-- [🎥 시연 영상 TBA](https://youtube.com)
 
 ## 프로젝트 목적
 
